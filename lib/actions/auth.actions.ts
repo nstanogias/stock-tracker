@@ -35,6 +35,10 @@ export const signUpWithEmail = async ({
     return { success: true, data: response };
   } catch (e) {
     console.log('Sign up failed', e);
+    if (e instanceof Error) {
+      console.log(e.message);
+      return { success: false, error: e.message };
+    }
     return { success: false, error: 'Sign up failed' };
   }
 };
@@ -45,7 +49,10 @@ export const signInWithEmail = async ({ email, password }: SignInFormData) => {
 
     return { success: true, data: response };
   } catch (e) {
-    console.log('Sign in failed', e);
+    if (e instanceof Error) {
+      console.log(e.message);
+      return { success: false, error: e.message };
+    }
     return { success: false, error: 'Sign in failed' };
   }
 };

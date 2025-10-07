@@ -23,13 +23,13 @@ const SignIn = () => {
   });
 
   const onSubmit = async (data: SignInFormData) => {
-    try {
-      const result = await signInWithEmail(data);
-      if (result.success) router.push('/');
-    } catch (e) {
-      console.error(e);
+    const result = await signInWithEmail(data);
+
+    if (result.success) {
+      router.push('/');
+    } else {
       toast.error('Sign in failed', {
-        description: e instanceof Error ? e.message : 'Failed to sign in.',
+        description: result.error || 'Failed to sign in.',
       });
     }
   };
@@ -47,7 +47,10 @@ const SignIn = () => {
           error={errors.email}
           validation={{
             required: 'Email is required',
-            pattern: /^\w+@\w+\.\w+$/,
+            pattern: {
+              value: /^[\w+.-]+@[\w.-]+\.\w+$/,
+              message: 'Please enter a valid email address',
+            },
           }}
         />
 
